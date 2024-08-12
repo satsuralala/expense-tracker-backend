@@ -16,7 +16,7 @@ export default function Home() {
   return (
     <main>
       {articles.map((article) => (
-        <div key={article.id} className="text-white">jdnfd</div>
+        <div key={article.id} className="text-white">{article.title}</div>
       ))}
     </main>
   );
