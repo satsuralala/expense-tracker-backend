@@ -7,7 +7,7 @@ export default function Home() {
 
   useEffect(() => {
     fetch("http://localhost:4000/articles")
-      .then((res) => res.json())
+      .then((res => res.json()))
       .then((data) => {
         console.log("data", data);
       });
@@ -15,9 +15,9 @@ export default function Home() {
 
   return (
     <main>
-      {articles.map((article) => {
-        <div key={article.id}>{article.title}</div>;
-      })}
+      {articles.map((article) => (
+        <div key={article.id} className="text-white">jdnfd</div>
+      ))}
     </main>
   );
 }
