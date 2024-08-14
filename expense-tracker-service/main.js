@@ -26,29 +26,22 @@ app.get("/categories/create", (req, res) => {
   res.json(["success"]);
 });
 
-app.get("/categories/update", (req, res) => {
-  const { name } = req.query;
 
-  categories.push({ name: name });
-  res.json(["success"]);
-});
-
-app.get("/categories/delete", (req, res) => {
-  const { name } = req.query;
-
-  categories.push({ name: name });
-  res.json(["success"]);
-});
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
-app.get("/articles", (req, res) => {
-  res.json([
-    { id: 1, title: "one" },
-    { id: 2, title: "two" },
-  ]);
-});
+
+
+
+
+
+
+
+
+
+
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });

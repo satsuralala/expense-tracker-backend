@@ -2,6 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Badge } from "@/components/ui/badge"
+import { buttonVariants } from "@/components/ui/button"
+import { Button } from "@/components/ui/button"
+
+
+
 
 
 export default function Home() {
@@ -34,10 +40,17 @@ export default function Home() {
     <main>
       <button onClick={createNew}>add new</button>
       {categories.map((category) => (
-        <div key={category.name} className="text-white">
-          {category.name}
+        <div >
+          <div key={category.name} className="text-black">{category.name}</div>
+          <button   className="text-black">edit</button>
+          <Button variant="outline" className="b">edit</Button>
+
         </div>
+       
       ))}
+   
+
+
     
 
     </main>
