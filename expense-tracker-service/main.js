@@ -26,6 +26,17 @@ app.get("/categories/create", (req, res) => {
   res.json(["success"]);
 });
 
+app.get("/categories/delete", (req, res) => {
+  const { name } = req.query;
+  constind
+
+  console.log("content", name);
+
+  fs.writeFileSync("categories.json", JSON.stringify(categories));
+  res.json(["success"]);
+});
+
+
 
 
 app.get("/", (req, res) => {
