@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+
 
 export default function Home() {
   const [categories, setCategories] = useState([]);
@@ -36,6 +38,8 @@ export default function Home() {
           {category.name}
         </div>
       ))}
+    
+
     </main>
   );
 }
