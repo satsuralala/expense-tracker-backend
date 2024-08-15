@@ -21,16 +21,27 @@ app.get("/categories/create", (req, res) => {
   const content = { categories };
 
   console.log("content", name);
-
   fs.writeFileSync("categories.json", JSON.stringify(categories));
   res.json(["success"]);
 });
 
 app.get("/categories/delete", (req, res) => {
-  const { name } = req.query;
-  constind
+  const { index } = req.query;
+  categories.splice(index,1)
 
-  console.log("content", name);
+  console.log("content",);
+
+  fs.writeFileSync("categories.json", JSON.stringify(categories));
+  res.json(["success"]);
+});
+
+
+app.get("/categories/edit", (req, res) => {
+  const { name } = req.query;
+  const { index } = req.query;
+  categories[index].name = name;
+
+  console.log("content",);
 
   fs.writeFileSync("categories.json", JSON.stringify(categories));
   res.json(["success"]);
@@ -38,10 +49,6 @@ app.get("/categories/delete", (req, res) => {
 
 
 
-
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
 
 
 

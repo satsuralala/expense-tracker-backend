@@ -22,6 +22,7 @@ export default function Home() {
       });
   }
 
+
   useEffect(() => {
     loadlist();
   }, []);
@@ -36,9 +37,9 @@ export default function Home() {
       });
   }
 
-  function Delete() {
+  function Delete(index) {
     if(window.confirm("Do u want to delete this?")){
-      fetch(`http://localhost:4000/categories/create?name=${name}`)
+      fetch(`http://localhost:4000/categories/delete?index=${index}`)
       .then((res) => res.json())
       .then(() => {
         loadlist();
@@ -46,7 +47,21 @@ export default function Home() {
 
 
     }
+  }
+    function Edit(index,oldName) {
+      const name = prompt("name",oldName);
+      if(name){
+        fetch(`http://localhost:4000/categories/edit?index=${index}&name=${name}`)
+        .then((res) => res.json())
+        .then(() => {
+          loadlist();
+        });
 
+      }
+        
+  
+  
+      
     fetch(`http://localhost:4000/categories/create?name=${name}`)
       .then((res) => res.json())
       .then(() => {
@@ -57,11 +72,11 @@ export default function Home() {
   return (
     <main>
       <button onClick={createNew}>add new</button>
-      {categories.map((category) => (
+      {categories.map((category,index) => (
         <div className="py-5 px-5 ">
           <div key={category.name} className="text-black pb-3">{category.name}</div>
-          <Button variant="outline" className="mr-4">edit</Button>
-          <Button variant="destructive" onClick={Delete} >delete</Button>
+          <Button variant="outline" className="mr-4" onClick={()=>Edit(index,category.name)}>edit</Button>
+          <Button variant="destructive" onClick={()=>Delete(index)} >delete</Button>
 
         </div>
        
