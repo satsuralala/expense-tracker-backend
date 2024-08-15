@@ -38,6 +38,8 @@ app.get("/categories/delete", (req, res) => {
 
 app.get("/categories/edit", (req, res) => {
   const { name } = req.query;
+  
+
   const { index } = req.query;
   categories[index].name = name;
 

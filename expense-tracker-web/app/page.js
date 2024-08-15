@@ -39,13 +39,11 @@ export default function Home() {
 
   function Delete(index) {
     if(window.confirm("Do u want to delete this?")){
-      fetch(`http://localhost:4000/categories/delete?index=${index}`)
+      fetch(`http://npm i nodemonlocalhost:4000/categories/delete?index=${index}`)
       .then((res) => res.json())
       .then(() => {
         loadlist();
       });
-
-
     }
   }
     function Edit(index,oldName) {
