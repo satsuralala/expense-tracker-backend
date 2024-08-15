@@ -30,7 +30,15 @@ export default function Home() {
   function createNew() {
     const name = prompt("name");
 
-    fetch(`http://localhost:4000/categories/create?name=${name}`)
+    fetch(`http://localhost:4000/categories/create`,{
+      method:"POST",
+      body: JSON.stringify({name: name}),
+      headers:{ 
+        "Content-type":"application/json; charset=UTF-8",
+      },
+
+    } )
+
       .then((res) => res.json())
       .then(() => {
         loadlist();
@@ -39,7 +47,10 @@ export default function Home() {
 
   function Delete(index) {
     if(window.confirm("Do u want to delete this?")){
-      fetch(`http://npm i nodemonlocalhost:4000/categories/delete?index=${index}`)
+      fetch(`http://npm i nodemonlocalhost:4000/categories/delete`,{
+        method:"DELETE",
+        body:JSON.stringify({index:index}),
+      })
       .then((res) => res.json())
       .then(() => {
         loadlist();
@@ -49,7 +60,11 @@ export default function Home() {
     function Edit(index,oldName) {
       const name = prompt("name",oldName);
       if(name){
-        fetch(`http://localhost:4000/categories/edit?index=${index}&name=${name}`)
+        fetch(`http://localhost:4000/categories/edit`,{
+          method:"PUT",
+          body:JSON.stringify({index:index})
+
+        })
         .then((res) => res.json())
         .then(() => {
           loadlist();
