@@ -1,9 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { buttonVariants } from "@/components/ui/button";
 import { Button } from "@/components/ui/button";
 
 export default function Home() {
@@ -13,7 +10,6 @@ export default function Home() {
     fetch(`http://localhost:4000/categories`)
       .then((res) => res.json())
       .then((data) => {
-        console.log("data", data);
         setCategories(data);
       });
   }
@@ -23,43 +19,11 @@ export default function Home() {
   }, []);
 
   function createNew() {
-    const name = prompt("name");
-
-    fetch(`http://localhost:4000/categories/#`, {
-      method: "POST",
-      body: JSON.stringify({ name: name }),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-    })
-      .then((res) => res.json())
-      .then(() => {
-        loadlist();
-      });
-  }
-
-  function Delete(index) {
-    if (confirm("Do u want to delete this?")) {
-      fetch(`http://localhost:4000/categories/#`, {
-        method: "DELETE",
-        body: JSON.stringify({ id: index }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      })
-        .then((res) => res.json())
-        .then(() => {
-          loadlist();
-        });
-    }
-  }
-
-  function Edit(id, oldName) {
-    const name = prompt("name", oldName);
+    const name = prompt("Enter category name:");
     if (name) {
-      fetch(`http://localhost:4000/categories/#`, {
-        method: "PUT",
-        body: JSON.stringify({ id: id,name: name}),
+      fetch(`http://localhost:4000/categories`, {
+        method: "POST",
+        body: JSON.stringify({ name }),
         headers: {
           "Content-type": "application/json; charset=UTF-8",
         },
@@ -69,31 +33,58 @@ export default function Home() {
           loadlist();
         });
     }
+  }
 
-    fetch(`http://localhost:4000/categories`)
-      .then((res) => res.json())
-      .then(() => {
-        loadlist();
-      });
+  function deleteCategory(id) {
+    if (confirm("Do you want to delete this?")) {
+      fetch(`http://localhost:4000/categories/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      })
+        .then((res) => res.json())
+        .then(() => {
+          loadlist();
+        });
+    }
+  }
+
+  function editCategory(id, oldName) {
+    const name = prompt("Enter new category name:", oldName);
+    if (name) {
+      fetch(`http://localhost:4000/categories/${id}`, {
+        method: "PUT",
+        body: JSON.stringify({ name }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      })
+        .then((res) => res.json())
+        .then(() => {
+          loadlist();
+        });
+    }
   }
 
   return (
     <main>
-      <button onClick={createNew}>add new</button>
-      {categories.map((category, index) => (
-        <div className="py-5 px-5 ">
-          <div key={category.id} className="text-black pb-3">
-            {category.name}
-          </div>
+      <Button onClick={createNew}>Add New</Button>
+      {categories.map((category) => (
+        <div className="py-5 px-5" key={category.id}>
+          <div className="text-black pb-3">{category.name}</div>
           <Button
             variant="outline"
             className="mr-4"
-            onClick={() => Edit(category.id, category.name)}
+            onClick={() => editCategory(category.id, category.name)}
           >
-            edit
+            Edit
           </Button>
-          <Button variant="destructive" onClick={() => Delete(category.id)}>
-            delete
+          <Button
+            variant="destructive"
+            onClick={() => deleteCategory(category.id)}
+          >
+            Delete
           </Button>
         </div>
       ))}
