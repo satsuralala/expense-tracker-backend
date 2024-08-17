@@ -14,7 +14,10 @@ export default function Home() {
       });
   }
 
- 
+  useEffect(() => {
+    loadlist();
+  }, []);
+
   function createNew() {
     const name = prompt("Enter category name:");
     if (name) {
