@@ -39,15 +39,12 @@ export default function Home() {
     if (confirm("Do you want to delete this?")) {
       fetch(`http://localhost:4000/categories/${id}`, {
         method: "DELETE",
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      })
-        .then((res) => res.json())
-        .then(() => {
+      }).then((res) => {
+          if(res.status==404){
+            alert("category no found")
+          }
           loadlist();
         });
-    }
   }
 
   function editCategory(id, oldName) {
@@ -90,4 +87,5 @@ export default function Home() {
       ))}
     </main>
   );
+}
 }
