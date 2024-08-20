@@ -10,6 +10,7 @@ export default function Home() {
     fetch(`http://localhost:4000/categories`)
       .then((res) => res.json())
       .then((data) => {
+        console.log(data);
         setCategories(data);
       });
   }
@@ -23,15 +24,13 @@ export default function Home() {
     if (name) {
       fetch(`http://localhost:4000/categories`, {
         method: "POST",
-        body: JSON.stringify({ name }),
+        body: JSON.stringify({ name: name }),
         headers: {
           "Content-type": "application/json; charset=UTF-8",
         },
-      })
-        .then((res) => res.json())
-        .then(() => {
-          loadlist();
-        });
+      }).then(() => {
+        loadlist();
+      });
     }
   }
 
@@ -40,11 +39,12 @@ export default function Home() {
       fetch(`http://localhost:4000/categories/${id}`, {
         method: "DELETE",
       }).then((res) => {
-          if(res.status==404){
-            alert("category no found")
-          }
-          loadlist();
-        });
+        if (res.status == 404) {
+          alert("category no found");
+        }
+        loadlist();
+      });
+    }
   }
 
   function editCategory(id, oldName) {
@@ -57,7 +57,7 @@ export default function Home() {
           "Content-type": "application/json; charset=UTF-8",
         },
       })
-        .then((res) => res.json())
+
         .then(() => {
           loadlist();
         });
@@ -87,5 +87,4 @@ export default function Home() {
       ))}
     </main>
   );
-}
 }
