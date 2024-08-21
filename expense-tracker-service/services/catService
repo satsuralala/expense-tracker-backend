@@ -12,8 +12,7 @@ async function createNewCategory({ name }) {
 async function getCategories() {
     const list= await sql `select * from categories`;
     console.log({list});
-    fs.writeFileSync("categories.json", JSON.stringify(categories));
-    return id;
+    return list;
   }
 
 
@@ -33,6 +32,7 @@ function deleteCategories(id) {
 module.exports={
     createNewCategory,
     updateCategories,
-    deleteCategories
+    deleteCategories,
+    getCategories
 
 }
