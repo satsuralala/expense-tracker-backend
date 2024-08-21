@@ -1,0 +1,38 @@
+const fs = require("fs");
+const { v4: uuidv4 } = require("uuid");
+const {sql}=require("../configs/database");
+
+async function createNewCategory({ name }) {
+  let id = uuidv4();
+  await sql `insert into category(id ,name) values (${name})`;
+  
+  return id;
+}
+
+async function getCategories() {
+    const list= await sql `select * from categories`;
+    console.log({list});
+    fs.writeFileSync("categories.json", JSON.stringify(categories));
+    return id;
+  }
+
+
+function updateCategories(id, name) {
+  const index = categories.findIndex((cat) => cat.id === id);
+  categories[index].name = name;
+  fs.writeFileSync("categories.json", JSON.stringify(categories));
+}
+function deleteCategories(id) {
+  const deleteIndex = categories.findIndex((cat) => cat.id == id);
+  categories = categories.filter((cat) => cat.id !== id);
+  fs.writeFileSync("categories.json", JSON.stringify(categories));
+
+  return deleteIndex;
+}
+
+module.exports={
+    createNewCategory,
+    updateCategories,
+    deleteCategories
+
+}
