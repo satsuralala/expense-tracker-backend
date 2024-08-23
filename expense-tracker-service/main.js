@@ -2,7 +2,7 @@
 const {startApp}=require("./configs/basic");
 const {sql}=require("./configs/database");
 
-const { updateCategories ,deleteCategories, createNewCategory , getCategories} = require("./services/catService");
+const { updateOneCategory ,deleteOneCategory, createNewCategory , getCategories, getOneCategory} = require("./services/catService");
 
 const app=startApp();
 
@@ -14,6 +14,13 @@ app.get("/categories", async (req, res) => {
   res.json(list);
 });
 
+app.get("/categories/:id", async (req, res) => {
+  const {id}=req.params;
+  const one =await getOneCategory(id);
+  res.json(one);
+});
+
+
 app.post("/categories", async (req, res) => {
   const { name } = req.body;
   const id = await createNewCategory({ name });
@@ -22,12 +29,12 @@ app.post("/categories", async (req, res) => {
 
 app.put("/categories/:id", async(req, res) => {
   const { id } = req.params;
-  const { name } = req.body;
+  const { input } = req.body;
   if (!name) {
     res.status(400).json({ error: "name required" });
     return;
   } 
-  await updateCategories(id, name);
+  await updateOneCategory(id, input);
   res.sendStatus(204);
 
 });
@@ -35,12 +42,12 @@ app.put("/categories/:id", async(req, res) => {
 app.delete("/categories/:id", async (req, res) => {
   const { id } = req.params;
 
-  const deleteIndex = deleteCategories(id);
+  const deleteIndex = deleteOneCategory(id);
   if (deleteIndex < 0) {
     res.sendStatus(404);
     return;
   } 
-  await deleteCategories(id);
+  await deleteOneCategory(id);
   res.sendStatus(204);
 });
 

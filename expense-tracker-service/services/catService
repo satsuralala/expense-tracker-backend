@@ -3,36 +3,37 @@ const { v4: uuidv4 } = require("uuid");
 const {sql}=require("../configs/database");
 
 async function createNewCategory({ name }) {
-  let id = uuidv4();
-  await sql `insert into category(id ,name) values (${name})`;
-  
+  const id = uuidv4();
+  await sql `insert into category(id ,name) values (${id}, ${name})`;
   return id;
 }
 
 async function getCategories() {
-    const list= await sql `select * from categories`;
-    console.log({list});
+    const list= await sql `select * from category order by name`;
     return list;
   }
-
-
-function updateCategories(id, name) {
-  const index = categories.findIndex((cat) => cat.id === id);
-  categories[index].name = name;
-  fs.writeFileSync("categories.json", JSON.stringify(categories));
+async function getOneCategory(id) {
+    const list= await sql `select * from category where id=${id}`;
+    if(list.length){
+      return list[0]
+    }
+    return null;
 }
-function deleteCategories(id) {
-  const deleteIndex = categories.findIndex((cat) => cat.id == id);
-  categories = categories.filter((cat) => cat.id !== id);
-  fs.writeFileSync("categories.json", JSON.stringify(categories));
 
-  return deleteIndex;
+
+async function updateOneCategory(id, update) {
+  const list=await sql`update category set name =${update.name} where id=${id}`;
+}
+async function deleteOneCategory(id) {
+  const deleteResult= await sql `delete * from category where id=${id}`;
+ 
 }
 
 module.exports={
     createNewCategory,
-    updateCategories,
-    deleteCategories,
-    getCategories
+    updateOneCategory,
+    getCategories,
+    getOneCategory,
+    deleteOneCategory,
 
 }
