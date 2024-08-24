@@ -52,5 +52,10 @@ app.delete("/categories/:id", async (req, res) => {
 });
 
 
+app.get("/dbtest", async(req, res)=>{
+  const result=await sql`select version()`;
+  console.log(result);
+  res.json({result});
+})
 
 
