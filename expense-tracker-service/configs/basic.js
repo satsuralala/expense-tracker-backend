@@ -17,7 +17,3 @@ app.use(express.json());
       return app;
 
   }
-
-  module.exports={
-    startApp,
-  };
