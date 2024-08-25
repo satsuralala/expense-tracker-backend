@@ -39,6 +39,18 @@ app.put("/categories/:id", async(req, res) => {
 
 });
 
+app.delete("/categories/:id", async (req, res) => {
+  const { id } = req.params;
+
+  const deleteIndex = deleteOneCategory(id);
+  if (deleteIndex < 0) {
+    res.sendStatus(404);
+    return;
+  } 
+  await deleteOneCategory(id);
+  res.sendStatus(204);
+});
+
 
 app.get("/dbtest", async(req, res)=>{
   const result=await sql`select version()`;
