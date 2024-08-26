@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from "@/expense-tracker-web/components/Card";
 
 export default function Home() {
   const [categories, setCategories] = useState([]);
@@ -66,7 +67,7 @@ export default function Home() {
 
   return (
     <main>
-      <Button onClick={createNew}>Add New</Button>
+      {/* <Button onClick={createNew}>Add New</Button>
       {categories.map((category) => (
         <div className="py-5 px-5" key={category.id}>
           <div className="text-black pb-3">{category.name}</div>
@@ -84,7 +85,21 @@ export default function Home() {
             Delete
           </Button>
         </div>
-      ))}
+      ))} */}
+    <div className="container mx-auto p-6">
+      <Card className="max-w-md mx-auto">
+        <CardHeader>
+          <CardTitle>Income & Expense Tracker</CardTitle>
+          <CardDescription>Track your financial transactions easily</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <p>Here you can add your income and expenses for better financial management.</p>
+        </CardContent>
+        <CardFooter>
+          <button className="btn-primary">Add Transaction</button>
+        </CardFooter>
+      </Card>
+    </div>
     </main>
   );
 }
