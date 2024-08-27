@@ -10,12 +10,7 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { IoMdHome } from "react-icons/io";
-import { IoHomeSharp } from "react-icons/io5";
-import { MdAirportShuttle } from "react-icons/md";
-import { MdAutoStories } from "react-icons/md";
-import { MdCastConnected } from "react-icons/md";
-import { MdChildFriendly } from "react-icons/md";
+
 import { Separator } from "@/components/ui/separator"
 
 
@@ -25,14 +20,81 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { useState } from "react";
+import { Baby, BookOpen, BriefcaseMedical, Drama, House, HousePlug, Phone, Shirt, ShowerHead, TvMinimal } from "lucide-react";
+
+
+const categoryIcon = [
+  {
+    name: "home",
+    icon: House, 
+  },
+  {
+    name: "housePlug",
+    icon: HousePlug,
+  },
+  {
+    name: "tv",
+    icon: TvMinimal,
+  },
+  {
+    name: "water",
+    icon: ShowerHead,
+  },
+  {
+    name: "phone",
+    icon: Phone,
+  },
+  {
+    name: "medicine",
+    icon: BriefcaseMedical,
+  },
+  {
+    name: "drama",
+    icon: Drama, 
+  },
+  {
+    name: "baby",
+    icon: Baby,
+  },
+  {
+    name: "shirt",
+    icon: Shirt,
+  },
+  {
+    name: "book",
+    icon: BookOpen,
+  },
+];
+
+const categoryColor=[
+  {
+    name:"green",
+    value:"#41CC00"
+  },
+  {
+    name:"green",
+    value:"#41CC00"
+  },
+  {
+    name:"green",
+    value:"#41CC00"
+  },
+  {
+    name:"green",
+    value:"#41CC00"
+  },
+  {
+    name:"green",
+    value:"#41CC00"
+  }
+]
 
 
 
-
-
-
-export function AddCategory() {
+export default function AddCategory() {
   const [selectedIcon, setSelectedIcon] = useState();
+  const [open, setOpen]=useState(false);
+
   const handleIconClick = (icon) => {
     setSelectedIcon(icon);
   };
@@ -52,17 +114,19 @@ export function AddCategory() {
         <div className="flex gap-4 align-baseline ">
             <Popover>
                 <PopoverTrigger asChild>
-                    <Button variant="outline"> {selectedIcon}</Button>
+                    <Button variant="outline"> <House /> </Button>
                 </PopoverTrigger>
-                <PopoverContent >
-                    <div className="  flex gap-6 ">
-                      <button onClick={() => handleIconClick(<IoHomeSharp />)}><IoHomeSharp /></button>
-                      <button onClick={() => handleIconClick(<MdAirportShuttle />)}><MdAirportShuttle /></button>
-                      <button onClick={() => handleIconClick(<MdAutoStories />)}><MdAutoStories /></button>
-                      <button onClick={() => handleIconClick(<MdCastConnected />)}><MdCastConnected /></button>
-                      <button onClick={() => handleIconClick(<MdChildFriendly />)}><MdChildFriendly /></button>
-                      
-            
+                <PopoverContent className="w-80" >
+                    <div className=" grid grid-cols-6">
+                      {categoryIcon.map(({name, icon})=>(
+                        <div key={name}>
+                          <icon></icon>
+                        </div>
+                      ))}
+                      {categoryColor.map(({name, value})=>(
+                        <div key={name} className="w-8 h-8 rounded-full" style={{backgroundColor:value}}></div>
+                      ))}
+                   
                         
                     </div>
                 </PopoverContent>
@@ -72,7 +136,7 @@ export function AddCategory() {
         </div>
 
         <DialogFooter>
-          <Button type="submit">Save changes</Button>
+          <Button className="w-full bg-green-700 rounded-full hover:bg-green-900 " >Add</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
