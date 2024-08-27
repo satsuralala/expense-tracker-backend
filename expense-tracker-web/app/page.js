@@ -2,7 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from "@/expense-tracker-web/components/Card";
+import { AddCategory } from "@/css/category";
+
+
 
 export default function Home() {
   const [categories, setCategories] = useState([]);
@@ -57,11 +59,9 @@ export default function Home() {
         headers: {
           "Content-type": "application/json; charset=UTF-8",
         },
-      })
-
-        .then(() => {
-          loadlist();
-        });
+      }).then(() => {
+        loadlist();
+      });
     }
   }
 
@@ -86,20 +86,28 @@ export default function Home() {
           </Button>
         </div>
       ))} */}
-    <div className="container mx-auto p-6">
-      <Card className="max-w-md mx-auto">
-        <CardHeader>
-          <CardTitle>Income & Expense Tracker</CardTitle>
-          <CardDescription>Track your financial transactions easily</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <p>Here you can add your income and expenses for better financial management.</p>
-        </CardContent>
-        <CardFooter>
-          <button className="btn-primary">Add Transaction</button>
-        </CardFooter>
-      </Card>
-    </div>
+      {/* <div className="bg-[#FFFFFF] py-4 px-[120px] ">
+        <div className="max-w-[1200px] mx-auto">
+          <div className="flex gap-6 items-center">
+            <Image src="/images/icon.png" className="w-7 h-7" />
+            <button className="text-slate-900">Dashboard</button>
+            <button>Records</button> 
+
+            <div className="flex">
+            <Badge className="bg-blue-500">+Record</Badge>
+            <Avatar>
+              <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+            </div>
+          </div>
+
+        </div>
+
+      </div> */}
+      <AddCategory></AddCategory>
+      
+  
     </main>
   );
 }
