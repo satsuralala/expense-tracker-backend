@@ -92,7 +92,7 @@ const categoryColor=[
 
 
 export default function AddCategory() {
-  const [selectedIcon, setSelectedIcon] = useState();
+  const [categories, setCategories] = useState([]);
   const [open, setOpen]=useState(false);
 
   const handleIconClick = (icon) => {
@@ -101,7 +101,9 @@ export default function AddCategory() {
 
 
   return (
-    <Dialog>
+    <main>
+      <button variant="secondary" onClick={()=>setOpen(true)}>Add new category</button>
+      <Dialog open={open}>
       <DialogTrigger asChild>
         <Button variant="outline" className="bg-[#0166FF] h-8 w-[250px]">Add</Button>
       </DialogTrigger>
@@ -137,8 +139,12 @@ export default function AddCategory() {
 
         <DialogFooter>
           <Button className="w-full bg-green-700 rounded-full hover:bg-green-900 " >Add</Button>
+          <Button onClick={()=>setOpen(false)}></Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
+      
+    </main>
+    
   )
 }
