@@ -23,18 +23,23 @@ app.get("/categories/:id", async (req, res) => {
 
 app.post("/categories", async (req, res) => {
   const { name } = req.body;
-  const id = await createNewCategory({ name });
+  const { color} = req.body;
+  const { icon } = req.body;
+  const id = await createNewCategory({ name, color, icon });
   res.status(201).json({ id, name });
 });
 
 app.put("/categories/:id", async(req, res) => {
   const { id } = req.params;
   const { input } = req.body;
+  const { name } = req.body;
+  const { color} = req.body;
+  const { icon } = req.body;
   if (!name) {
     res.status(400).json({ error: "name required" });
     return;
   } 
-  await updateOneCategory(id, input);
+  await updateOneCategory({name, color, icon});
   res.sendStatus(204);
 
 });

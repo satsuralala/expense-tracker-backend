@@ -2,9 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { AddCategory } from "@/css/category";
-
-
+import { AddCategory } from "@/components/category";
 
 export default function Home() {
   const [categories, setCategories] = useState([]);
@@ -27,7 +25,10 @@ export default function Home() {
     if (name) {
       fetch(`http://localhost:4000/categories`, {
         method: "POST",
-        body: JSON.stringify({ name: name }),
+        body: JSON.stringify({
+          name: name,
+          color: color,
+        }),
         headers: {
           "Content-type": "application/json; charset=UTF-8",
         },
@@ -105,9 +106,7 @@ export default function Home() {
         </div>
 
       </div> */}
-      <AddCategory></AddCategory>
-      
-  
+      <AddCategory />
     </main>
   );
 }
