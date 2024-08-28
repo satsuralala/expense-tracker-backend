@@ -9,6 +9,7 @@ const app=startApp();
 
 
 
+
 app.get("/categories", async (req, res) => {
   const list =await getCategories();
   res.json(list);

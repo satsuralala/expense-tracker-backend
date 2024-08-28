@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { AddCategory } from "@/components/category";
+import { Icon } from "lucide-react";
+import { Value } from "@radix-ui/react-select";
 
 export default function Home() {
   const [categories, setCategories] = useState([]);
@@ -27,7 +29,10 @@ export default function Home() {
         method: "POST",
         body: JSON.stringify({
           name: name,
-          color: color,
+          color: Value,
+          colorname:colorname,
+          iconname: iconname,
+          icon:Icon,
         }),
         headers: {
           "Content-type": "application/json; charset=UTF-8",
@@ -44,7 +49,7 @@ export default function Home() {
         method: "DELETE",
       }).then((res) => {
         if (res.status == 404) {
-          alert("category no found");
+          alert("category not found");
         }
         loadlist();
       });
