@@ -6,7 +6,7 @@ import { AddCategory } from "@/components/category";
 import { Icon } from "lucide-react";
 import { Value } from "@radix-ui/react-select";
 import { Nav } from "@/components/nav";
-import { Records } from "./records";
+import { Records } from "../components/records";
 
 
 export default function Home() {
@@ -115,8 +115,10 @@ export default function Home() {
 
       </div> */}
       <Nav></Nav>
-      <AddCategory />
-      <Records  />
+    
+      <Records />
+    
+
     </main>
   );
 }
