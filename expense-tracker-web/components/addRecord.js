@@ -27,6 +27,8 @@ import { Separator } from "@/components/ui/separator"
 export function AddRecord() {
   const [openRecord, setopenRecord] = useState(false);
   const [closeRecord, setcloseRecord] = useState(false);
+  const [openExpense, setopenExpense] = useState(false);
+
   return (
     <>
       <button className="font-normal text-base flex gap-2 text-[#1F2937] pt-3"
@@ -36,7 +38,7 @@ export function AddRecord() {
     </button>
 
 
-      <Dialog open={open}>
+      <Dialog open={openRecord}>
 
         <DialogContent className="w-[400px]">
           <DialogHeader>
@@ -44,9 +46,10 @@ export function AddRecord() {
             <Separator className="my-4" />
           </DialogHeader>
 
-          <Tabs>
+          <Tabs open={openExpense}>
+            
             <TabsList  className="grid w-full grid-cols-2">
-              <TabsTrigger value="account" className="">Expense</TabsTrigger>
+              <TabsTrigger onClick="">Expense</TabsTrigger>
               <TabsTrigger value="password">Income</TabsTrigger>
             </TabsList>
             <TabsContent value="account">
