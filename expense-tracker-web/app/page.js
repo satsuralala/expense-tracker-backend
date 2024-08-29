@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { AddCategory } from "@/components/category";
 import { Icon } from "lucide-react";
 import { Value } from "@radix-ui/react-select";
+import { Nav } from "@/components/nav";
 
 export default function Home() {
   const [categories, setCategories] = useState([]);
@@ -111,6 +112,7 @@ export default function Home() {
         </div>
 
       </div> */}
+      <Nav></Nav>
       <AddCategory />
     </main>
   );
