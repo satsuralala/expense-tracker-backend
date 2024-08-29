@@ -7,6 +7,7 @@ import { Icon } from "lucide-react";
 import { Value } from "@radix-ui/react-select";
 import { Nav } from "@/components/nav";
 
+
 export default function Home() {
   const [categories, setCategories] = useState([]);
 
