@@ -77,7 +77,11 @@ export function AddRecord() {
               </SelectContent>
             </Select>
 
-          
+            <div>
+              <h2>Date</h2>
+              
+
+            </div>
             
               
       
