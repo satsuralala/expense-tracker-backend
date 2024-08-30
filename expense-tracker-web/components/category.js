@@ -85,7 +85,7 @@ export function AddCategory() {
                       className="cursor-pointer"
                       onClick={() => setSelectedIcon(iconname)}
                     >
-                      {/* Apply the color only to the selected icon */}
+                     
                       <Icon
                         className="w-8 h-8"
                         color={selectedIcon === iconname ? selectedColor : undefined}
