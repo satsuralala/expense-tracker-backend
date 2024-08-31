@@ -40,7 +40,12 @@ export function AddRecord() {
       <Dialog open={openRecord} className="w-[792px]">
 
         <DialogContent className="w-[792px]">
-         
+          <DialogHeader>
+
+            <DialogTitle className="text-xl font-semibold text-[#0F172A]">Add Record</DialogTitle>
+            <Separator className="my-4" />
+          </DialogHeader>
+
             <div  className="flex rounded-full mt-5 bg-[#F3F4F6] w-[348px]" >
               <button className="hover:bg-[#0166FF] hover:text-[#F9FAFB] bg-[#F3F4F6] rounded-full w-[172px] h-[40px] text-[#1F2937] font-normal text-base">Expense1</button>
               <button className="hover:bg-[#0166FF] hover:text-[#F9FAFB] bg-[#F3F4F6] rounded-full w-[172px] h-[40px] text-[#1F2937] font-normal text-base">Income2</button>
