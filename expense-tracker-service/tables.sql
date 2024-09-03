@@ -6,8 +6,19 @@ CREATE TABLE category(
     name TEXT NOT NULL
 )
 ALTER TABLE category
-    ADD COLUMN color varchar(16);
-    ADD COLUMN icon varchar(16);
+    ADD COLUMN color varchar(12);
+    ADD COLUMN icon varchar(12);
+
+
+CREATE TABLE transaction(
+  id char(16) PRIMARY KEY,
+  amount decimal(10,2),
+  categoryId char(36),
+  type Varchar(10),
+  date DATE(),
+  payee varchar(),
+  note TEXT,
+)
 
 select id, name FROM categories;
 select * FROM categories;

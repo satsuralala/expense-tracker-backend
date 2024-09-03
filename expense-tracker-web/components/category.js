@@ -24,6 +24,7 @@ import {
   Plus,
 } from "lucide-react";
 import { Button } from "./ui/button";
+import Home from "@/app/page";
 
 const categoryIcon = [
   { iconname: "home", icon: House },
@@ -72,7 +73,7 @@ export function AddCategory() {
             <DialogTitle>Add category</DialogTitle>
             <Separator className="my-4 mt-9" />
           </DialogHeader>
-          <div className="flex gap-4 align-baseline">
+          <div className="flex gap-4 mt-4 align-baseline">
             <Popover>
               <PopoverTrigger asChild>
                 <Button variant="outline">
@@ -120,16 +121,12 @@ export function AddCategory() {
             
               </PopoverContent>
             </Popover>
-            <Input id="name" placeholder="Name" className="col-span-3" />
+            <Input id="name" value={name} onChange={(e)=> setName(e.target.value)} className="col-span-3" />
           </div>
           <DialogFooter>
             <Button
-              className="w-full bg-green-700 rounded-full hover:bg-green-900"
-              onClick={() => {
-                if (selectedIcon && selectedColor) {
-                  setOpen(false);
-                }
-              }}
+              className="w-full bg-green-700 rounded-full hover:bg-green-900 mt-8"
+              onClick={createNew}
             >
               Add
             </Button>

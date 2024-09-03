@@ -27,7 +27,12 @@ app.post("/categories", async (req, res) => {
   const { color} = req.body;
   const { icon } = req.body;
   const id = await createNewCategory({ name, color, icon });
-  res.status(201).json({ id, name });
+
+  if(id){
+    res.status(201).json({ id, name });
+  }else{
+    res.status(404).json("not found");
+  }
 });
 
 app.put("/categories/:id", async(req, res) => {
