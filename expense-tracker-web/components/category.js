@@ -21,6 +21,7 @@ import {
   ShowerHead,
   TvMinimal,
   Check,
+  Plus,
 } from "lucide-react";
 import { Button } from "./ui/button";
 
@@ -50,6 +51,7 @@ export function AddCategory() {
   const [open, setOpen] = useState(false);
   const [selectedIcon, setSelectedIcon] = useState("");
   const [selectedColor, setSelectedColor] = useState();
+  const [name, setName]=useState("");
 
   const SelectedIcon = categoryIcon.find(
     (chosenIcon) => selectedIcon === chosenIcon.iconname
@@ -57,9 +59,13 @@ export function AddCategory() {
 
   return (
     <main>
-      <Button variant="secondary" onClick={() => setOpen(true)}>
-        Add new category
-      </Button>
+     
+      <button
+        className="font-normal text-base flex gap-2 text-[#1F2937] pt-3"
+        onClick={() => setOpen(true)}
+      >
+        <Plus color="#0166FF" /> Add category
+      </button>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
@@ -85,10 +91,11 @@ export function AddCategory() {
                       className="cursor-pointer"
                       onClick={() => setSelectedIcon(iconname)}
                     >
-                     
                       <Icon
                         className="w-8 h-8"
-                        color={selectedIcon === iconname ? selectedColor : undefined}
+                        color={
+                          selectedIcon === iconname ? selectedColor : undefined
+                        }
                       />
                     </div>
                   ))}
@@ -110,6 +117,7 @@ export function AddCategory() {
                     </div>
                   ))}
                 </div>
+            
               </PopoverContent>
             </Popover>
             <Input id="name" placeholder="Name" className="col-span-3" />
