@@ -1,61 +1,56 @@
+const { startApp } = require("./configs/basic");
+const { sql } = require("./configs/database");
 
-const {startApp}=require("./configs/basic");
-const {sql}=require("./configs/database");
-
-
-const { updateOneCategory ,deleteOneCategory, createNewCategory , getCategories, getOneCategory, createNewTransaction,
+const {
+  updateOneCategory,
+  deleteOneCategory,
+  createNewCategory,
+  getCategories,
+  getOneCategory,
+  createNewTransaction,
   updateOneTransaction,
   getTransactions,
   getOneTransaction,
-  deleteOneTransaction,} = require("./services/catService");
+  deleteOneTransaction,
+} = require("./services/catService");
 
-const app=startApp();
-
-
-
-
+const app = startApp();
 
 app.get("/categories", async (req, res) => {
-  const list =await getCategories();
+  const list = await getCategories();
   res.json(list);
 });
 
 app.get("/categories/:id", async (req, res) => {
-  const {id}=req.params;
-  const one =await getOneCategory(id);
+  const { id } = req.params;
+  const one = await getOneCategory(id);
   res.json(one);
 });
 
-
 app.post("/categories", async (req, res) => {
   const { name } = req.body;
-  const { color} = req.body;
+  const { color } = req.body;
   const { icon } = req.body;
   const id = await createNewCategory({ name, color, icon });
 
-  if(id){
-    res.status(201).json({ id, name });
-  }else{
-    res.status(404).json("not found");
-  }
+  res.status(201).json({ id, name });
+
+ 
 });
 
-app.put("/categories/:id", async(req, res) => {
+app.put("/categories/:id", async (req, res) => {
   const { id } = req.params;
   const { input } = req.body;
   const { name } = req.body;
-  const { color} = req.body;
+  const { color } = req.body;
   const { icon } = req.body;
   if (!name) {
     res.status(400).json({ error: "name required" });
     return;
-  } 
-  await updateOneCategory({name, color, icon});
+  }
+  await updateOneCategory({ name, color, icon });
   res.sendStatus(204);
-
 });
-
-
 
 app.delete("/categories/:id", async (req, res) => {
   const { id } = req.params;
@@ -64,54 +59,51 @@ app.delete("/categories/:id", async (req, res) => {
   if (deleteIndex < 0) {
     res.sendStatus(404);
     return;
-  } 
+  }
   await deleteOneCategory(id);
   res.sendStatus(204);
 });
 
-
-app.get("/dbtest", async(req, res)=>{
-  const result=await sql`select version()`;
+app.get("/dbtest", async (req, res) => {
+  const result = await sql`select version()`;
   console.log(result);
-  res.json({result});
-})
+  res.json({ result });
+});
 
-
-
-// TRANSACTIONS 
+// transactons
 
 app.get("/transactions", async (req, res) => {
-  const list =await getTransactions();
+  const list = await getTransactions();
   res.json(list);
 });
 
 app.get("/transactions/:id", async (req, res) => {
-  const {id}=req.params;
-  const one =await getOneTransaction(id);
+  const { id } = req.params;
+  const one = await getOneTransaction(id);
   res.json(one);
 });
 
-
 app.post("/transactions", async (req, res) => {
-
-  const { amount} = req.body;
+  const { amount } = req.body;
   const { input } = req.body;
   const { categoryId } = req.body;
   const { type } = req.body;
-  const { date} = req.body;
-  const { payee} = req.body;
+  const { date } = req.body;
+  const { payee } = req.body;
   const { note } = req.body;
-  const id = await createNewTransaction({ amount,categoryId, type,date,payee,note });
+  const id = await createNewTransaction({
+    amount,
+    categoryId,
+    type,
+    date,
+    payee,
+    note,
+  });
 
-  if(id){
-    res.status(201).json({ id, name });
-  }else{
-    res.status(404).json("not found");
-  }
+
+    res.status(201).json({ type });
+ 
 });
-
-
-
 
 app.delete("/transactions/:id", async (req, res) => {
   const { id } = req.params;
@@ -120,39 +112,25 @@ app.delete("/transactions/:id", async (req, res) => {
   if (deleteIndex < 0) {
     res.sendStatus(404);
     return;
-  } 
+  }
   await deleteOneTransaction(id);
   res.sendStatus(204);
 });
 
-
-app.get("/dbtest", async(req, res)=>{
-  const result=await sql`select version()`;
-  console.log(result);
-  res.json({result});
-})
-
-
-
-
-app.put("/transactions/:id", async(req, res) => {
+app.put("/transactions/:id", async (req, res) => {
   const { id } = req.params;
-  const { amount} = req.body;
+  const { amount } = req.body;
   const { input } = req.body;
   const { categoryId } = req.body;
   const { type } = req.body;
-  const { date} = req.body;
-  const { payee} = req.body;
+  const { date } = req.body;
+  const { payee } = req.body;
   const { note } = req.body;
 
   if (!id) {
     res.status(400).json({ error: "name required" });
     return;
-  } 
-  await updateOneTransaction({ amount,categoryId, type,date,payee,note});
+  }
+  await updateOneTransaction({ amount, categoryId, type, date, payee, note });
   res.sendStatus(204);
-
 });
-
-
-

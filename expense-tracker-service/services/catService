@@ -1,93 +1,93 @@
 const fs = require("fs");
 const { v4: uuidv4 } = require("uuid");
-const {sql}=require("../configs/database");
+const { sql } = require("../configs/database");
 
 async function createNewCategory({ name, color, icon }) {
-  if(name && color && icon){
+  if (name && color && icon) {
     const id = uuidv4();
-    await sql `insert into category(id ,name, color, icon) values (${id}, ${name},${color},${icon})`;
+    await sql`insert into category(id ,name, color, icon) values (${id}, ${name},${color},${icon})`;
     return id;
-
-  }else{
+  } else {
     return null;
   }
-
 }
-
 
 async function getCategories() {
-    const list= await sql `select * from category order by name`;
-    return list;
-  }
+  const list = await sql`select * from category order by name`;
+  return list;
+}
 async function getOneCategory(id) {
-    const list= await sql `select * from category where id=${id}`;
-    if(list.length){
-      return list[0]
-    }
-    return null;
+  const list = await sql`select * from category where id=${id}`;
+  if (list.length) {
+    return list[0];
+  }
+  return null;
 }
 
-
-async function updateOneCategory(id, {name, color, icon}) {
-  const list=await sql`update category set name =${name}, color =${color}, icon =${icon} where id=${id}`;
+async function updateOneCategory(id, { name, color, icon }) {
+  const list =
+    await sql`update category set name =${name}, color =${color}, icon =${icon} where id=${id}`;
 }
 async function deleteOneCategory(id) {
-  const deleteResult= await sql `delete * from category where id=${id}`;
- 
+  const deleteResult = await sql`delete * from category where id=${id}`;
 }
-
-
 
 //Transaction
 
-async function createNewTransaction({  amount,  categoryId, type,date,payee,note }) {
-  if( amount  && categoryId && type && date && payee &&note){
+async function createNewTransaction({
+  amount,
+  input,
+  categoryId,
+  type,
+  date,
+  payee,
+  note,
+}) {
+  if (amount && categoryId && type && date && payee && note) {
     const id = uuidv4();
-    await sql `insert into category( amount, categoryId, type,date,payee,note) values ( ${amount}, ${input}, ${categoryId}, ${type},${date}, ${payee},${note})`;
-    return id;
+    await sql`insert into transaction(amount, categoryId, type, date, payee, note) values (${amount}, ${categoryId}, ${type}, ${date}, ${payee}, ${note})`;
 
-  }else{
+    return id;
+  } else {
     return null;
   }
-
 }
-
 
 async function getTransactions() {
-    const list= await sql `select * from category order by name`;
-    return list;
-  }
+  const list = await sql`select * from transaction order by id`;
+  return list;
+}
 async function getOneTransaction(id) {
-    const list= await sql `select * from category where id=${id}`;
-    if(list.length){
-      return list[0]
-    }
-    return null;
+  const list = await sql`select * from transaction where id=${id}`;
+  if (list.length) {
+    return list[0];
+  }
+  return null;
 }
 
+async function updateOneTransaction(
+  id,
+  { amount, categoryId, type, date, payee, note }
+) {
+  const list =
+  await sql`update transaction set amount=${amount}, categoryId=${categoryId}, type=${type}, date=${date}, payee=${payee}, note=${note} where id=${id}`;
 
-async function updateOneTransaction(id, {amount,  categoryId, type,date,payee,note}) {
-  const list=await sql`update category set amount=${amount},  categoryId=${categoryId}, type=${type},date=${date},payee=${payee},note=${note} where id=${id}`;
 }
 async function deleteOneTransaction(id) {
-  const deleteResult= await sql `delete * from category where id=${id}`;
- 
+  const deleteResult = await sql`delete from transaction where id=${id}`;
+  
 }
 
+module.exports = {
+  createNewCategory,
+  updateOneCategory,
+  getCategories,
+  getOneCategory,
+  deleteOneCategory,
 
-module.exports={
-    createNewCategory,
-    updateOneCategory,
-    getCategories,
-    getOneCategory,
-    deleteOneCategory,
-
-
-
-    createNewTransaction,
-    updateOneTransaction,
-    getTransactions,
-    getOneTransaction,
-    deleteOneTransaction,
-
-}
+  createNewTransaction,
+  updateOneTransaction,
+  getTransactions,
+  getOneTransaction,
+  deleteOneTransaction,
+};

@@ -140,9 +140,9 @@ export default function Home() {
     fetch(`http://localhost:4000/transactions`, {
       method: "POST",
       body: JSON.stringify({
- 
         type: type,
         amount: amount,
+        categoryId: CategoryId,
       }),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
@@ -151,7 +151,6 @@ export default function Home() {
       loadlist();
       reset();
       setOpen(false);
-      toast("successfully added");
       setLoading(false);
     });
   }
@@ -192,7 +191,8 @@ export default function Home() {
 
   const [type, setType] = useState("");
   const [amount, setAmount] = useState();
-
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [CategoryId, setCategoryId] = useState();
   return (
     <main>
       <Nav></Nav>
@@ -263,7 +263,7 @@ export default function Home() {
                         <h2 className="text-[#1F2937] text-base font-normal pt-[19px] pb-2">
                           Category
                         </h2>
-                        <Select>
+                        <Select value={category.id}  onValueChange={CategoryId} >
                           <SelectTrigger className="w-[348px] bg-[#F9FAFB] border-[#D1D5DB] border-[1px] ">
                             <SelectValue
                               className="bg-[#F9FAFB] "
@@ -272,16 +272,22 @@ export default function Home() {
                           </SelectTrigger>
                           <SelectContent>
                             <SelectGroup>
-                              <SelectLabel>Fruits</SelectLabel>
-                              <SelectItem value="apple">Apple</SelectItem>
-                              <SelectItem value="banana">Banana</SelectItem>
-                              <SelectItem value="blueberry">
-                                Blueberry
-                              </SelectItem>
-                              <SelectItem value="grapes">Grapes</SelectItem>
-                              <SelectItem value="pineapple">
-                                Pineapple
-                              </SelectItem>
+                              <SelectLabel>Categories</SelectLabel>
+                              {categories.map((category) => (
+                                <SelectItem
+                                  key={category.id}
+                                  value={category.id}
+                                  onClick={() => setSelectedCategory(category)}
+                                >
+                                  <div className="flex items-center gap-2">
+                                    <ShowCategory
+                                      iconname={category.icon}
+                                      colorname={category.color}
+                                    />
+                                    <div>{category.name}</div>
+                                  </div>
+                                </SelectItem>
+                              ))}
                             </SelectGroup>
                           </SelectContent>
                         </Select>
@@ -330,15 +336,6 @@ export default function Home() {
                             <SelectContent>
                               <SelectGroup>
                                 <SelectLabel>Fruits</SelectLabel>
-
-                                <SelectItem value="banana">Banana</SelectItem>
-                                <SelectItem value="blueberry">
-                                  Blueberry
-                                </SelectItem>
-                                <SelectItem value="grapes">Grapes</SelectItem>
-                                <SelectItem value="pineapple">
-                                  Pineapple
-                                </SelectItem>
                               </SelectGroup>
                             </SelectContent>
                           </Select>
