@@ -263,7 +263,7 @@ export default function Home() {
                         <h2 className="text-[#1F2937] text-base font-normal pt-[19px] pb-2">
                           Category
                         </h2>
-                        <Select value={category.id}  onValueChange={CategoryId} >
+                        <Select value={categories}  onValueChange={categories} >
                           <SelectTrigger className="w-[348px] bg-[#F9FAFB] border-[#D1D5DB] border-[1px] ">
                             <SelectValue
                               className="bg-[#F9FAFB] "
