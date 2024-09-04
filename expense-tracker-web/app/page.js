@@ -83,11 +83,7 @@ export default function Home() {
   const [selectedIcon, setSelectedIcon] = useState("home");
   const [selectedColor, setSelectedColor] = useState("blue");
   const [name, setName] = useState("");
-  const [loading, setLoading]=useState(false);
-
-
-
-const [Expense, setExpense]=useState("");
+  const [loading, setLoading] = useState(false);
 
   const SelectedIcon = categoryIcon.find(
     (chosenIcon) => selectedIcon === chosenIcon.iconname
@@ -110,7 +106,6 @@ const [Expense, setExpense]=useState("");
     fetch(`http://localhost:4000/categories`)
       .then((res) => res.json())
       .then((data) => {
-
         setCategories(data);
       });
   }
@@ -127,6 +122,27 @@ const [Expense, setExpense]=useState("");
         name: name,
         color: selectedColor,
         icon: selectedIcon,
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    }).then(() => {
+      loadlist();
+      reset();
+      setOpen(false);
+      toast("successfully added");
+      setLoading(false);
+    });
+  }
+
+  function createNewTransaction() {
+    setLoading(true);
+    fetch(`http://localhost:4000/transactions`, {
+      method: "POST",
+      body: JSON.stringify({
+ 
+        type: type,
+        amount: amount,
       }),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
@@ -168,13 +184,14 @@ const [Expense, setExpense]=useState("");
     }
   }
 
-  function reset(){
+  function reset() {
     setName("");
     setSelectedColor("blue");
     setSelectedIcon("home");
   }
 
-  console.log({ categories });
+  const [type, setType] = useState("");
+  const [amount, setAmount] = useState();
 
   return (
     <main>
@@ -195,7 +212,11 @@ const [Expense, setExpense]=useState("");
                     <Plus />
                     Add
                   </button>
-                  <Dialog open={openRecord} className="flex gap-0" onClose={()=>setOpen(false)}>
+                  <Dialog
+                    open={openRecord}
+                    className="flex gap-0"
+                    onClose={() => setOpen(false)}
+                  >
                     <DialogContent className="w-[792px] flex">
                       <div className="flex-1 ">
                         <DialogHeader>
@@ -206,10 +227,18 @@ const [Expense, setExpense]=useState("");
                         </DialogHeader>
 
                         <div className="flex rounded-full mt-5 bg-[#F3F4F6] w-[348px]">
-                          <button value={Expense} onChange={(e)=>setExpense(e.target.vallue)}  className="hover:bg-[#0166FF] hover:text-[#F9FAFB] bg-[#F3F4F6] rounded-full w-[172px] h-[40px] text-[#1F2937] font-normal text-base">
+                          <button
+                            value={type}
+                            onClick={() => setType("expense")}
+                            className="hover:bg-[#0166FF] hover:text-[#F9FAFB] bg-[#F3F4F6] rounded-full w-[172px] h-[40px] text-[#1F2937] font-normal text-base"
+                          >
                             Expense
                           </button>
-                          <button  value={Income} onChange={(e)=>setExpense(e.target.vallue)} className="hover:bg-[#0166FF] hover:text-[#F9FAFB] bg-[#F3F4F6] rounded-full w-[172px] h-[40px] text-[#1F2937] font-normal text-base">
+                          <button
+                            value={type}
+                            onClick={() => setType("income")}
+                            className="hover:bg-[#0166FF] hover:text-[#F9FAFB] bg-[#F3F4F6] rounded-full w-[172px] h-[40px] text-[#1F2937] font-normal text-base"
+                          >
                             Income
                           </button>
                         </div>
@@ -220,6 +249,11 @@ const [Expense, setExpense]=useState("");
                               Amount
                             </h1>
                             <input
+                              value={amount}
+                              type="number"
+                              onChange={(e) =>
+                                setAmount(parseFloat(e.target.value))
+                              }
                               className="bg-[#F3F4F6] pl-4 pb-3"
                               placeholder="₮ 000.00"
                             />
@@ -273,12 +307,12 @@ const [Expense, setExpense]=useState("");
                             </SelectContent>
                           </Select>
                         </div>
-                        <div className="flex rounded-full mt-5 bg-[#16A34A] w-[348px] justify-center items-center h-[40px]">
-                          <div className="text-[#F9FAFB] text-base   ">
-                            {" "}
-                            Add Record
-                          </div>
-                        </div>
+                        <button
+                          onClick={createNewTransaction}
+                          className="flex rounded-full mt-5 bg-[#16A34A] w-[348px] justify-center items-center h-[40px] text-[#F9FAFB] text-base "
+                        >
+                          Add Record
+                        </button>
                       </div>
                       <div className="flex-1">
                         <Separator className="mt-[33px]" />
@@ -296,7 +330,7 @@ const [Expense, setExpense]=useState("");
                             <SelectContent>
                               <SelectGroup>
                                 <SelectLabel>Fruits</SelectLabel>
-                                <SelectItem value="apple">Apple</SelectItem>
+
                                 <SelectItem value="banana">Banana</SelectItem>
                                 <SelectItem value="blueberry">
                                   Blueberry
@@ -369,14 +403,17 @@ const [Expense, setExpense]=useState("");
                     <div className="text-base font-semibold text-[#1F2937]  font-roboto">
                       Category
                     </div>
-                    <button className="text-[#1F2937] font-normal text-base opacity-20" >
+                    <button className="text-[#1F2937] font-normal text-base opacity-20">
                       Clear
                     </button>
                   </div>
                   <>
-                  <Toaster />
+                    <Toaster />
                     {categories.map((category) => (
-                      <div key={category.iconname} className="flex pl-[13px] gap-2">
+                      <div
+                        key={category.iconname}
+                        className="flex pl-[13px] gap-2"
+                      >
                         <ShowCategory
                           iconname={category.icon}
                           colorname={category.color}
@@ -393,7 +430,6 @@ const [Expense, setExpense]=useState("");
                     </button>
                     <Dialog open={open} onOpenChange={setOpen}>
                       <DialogContent className="sm:max-w-[425px]">
-                       
                         <DialogHeader>
                           <DialogTitle>Add category</DialogTitle>
 
@@ -408,30 +444,26 @@ const [Expense, setExpense]=useState("");
                                 ) : (
                                   "..."
                                 )}
-
-                                
                               </Button>
                             </PopoverTrigger>
                             <PopoverContent className="w-80">
                               <div className="grid grid-cols-6 gap-2">
-                                {categoryIcon.map(
-                                  ({ iconname, Icon }) => (
-                                    <div
-                                      key={iconname}
-                                      className="cursor-pointer"
-                                      onClick={() => setSelectedIcon(iconname)}
-                                    >
-                                      <Icon
-                                        className="w-8 h-8"
-                                        color={
-                                          selectedIcon === iconname
-                                            ? selectedColor
-                                            : undefined
-                                        }
-                                      />
-                                    </div>
-                                  )
-                                )}
+                                {categoryIcon.map(({ iconname, Icon }) => (
+                                  <div
+                                    key={iconname}
+                                    className="cursor-pointer"
+                                    onClick={() => setSelectedIcon(iconname)}
+                                  >
+                                    <Icon
+                                      className="w-8 h-8"
+                                      color={
+                                        selectedIcon === iconname
+                                          ? selectedColor
+                                          : undefined
+                                      }
+                                    />
+                                  </div>
+                                ))}
                               </div>
                               <Separator className="my-4" />
                               <div className="grid grid-cols-6 gap-2">
@@ -454,14 +486,16 @@ const [Expense, setExpense]=useState("");
                               </div>
                             </PopoverContent>
                           </Popover>
-                          <Input disabled={loading}
+                          <Input
+                            disabled={loading}
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             className="col-span-3"
                           />
                         </div>
                         <DialogFooter>
-                          <Button disabled={loading}
+                          <Button
+                            disabled={loading}
                             className="w-full bg-green-700 rounded-full hover:bg-green-900 mt-8"
                             onClick={createNew}
                           >
@@ -482,9 +516,7 @@ const [Expense, setExpense]=useState("");
 }
 
 function ShowCategory({ iconname, colorname }) {
-
-  console.log({iconname, colorname})
-
+  console.log({ iconname, colorname });
 
   const iconObject = categoryIcon.find((item) => item.iconname === iconname);
   const colorObject = categoryColor.find(
@@ -495,14 +527,13 @@ function ShowCategory({ iconname, colorname }) {
   }
   let hexColor;
   if (!colorObject) {
-
     hexColor = "#000";
   } else {
     hexColor = colorObject.value;
   }
   const { Icon } = iconObject;
 
-  console.log({iconObject});
-  
+  console.log({ iconObject });
+
   return <Icon style={{ color: hexColor }} />;
 }
