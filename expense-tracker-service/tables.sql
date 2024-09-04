@@ -9,15 +9,17 @@ ALTER TABLE category
     ADD COLUMN color varchar(12);
     ADD COLUMN icon varchar(12);
 
+CREATE TYPE transactionType AS ENUM('INCOME', 'EXPENSE');
 
 CREATE TABLE transaction(
   id char(16) PRIMARY KEY,
   amount decimal(10,2),
   categoryId char(36),
-  type Varchar(10),
-  date DATE(),
-  payee varchar(),
+  type transactionType,
+  date DATE,
+  payee varchar(10),
   note TEXT,
+  FOREIGN KEY (categoryId) REFERENCES category(id)
 )
 
 select id, name FROM categories;

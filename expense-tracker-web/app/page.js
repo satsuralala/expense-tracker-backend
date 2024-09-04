@@ -85,6 +85,10 @@ export default function Home() {
   const [name, setName] = useState("");
   const [loading, setLoading]=useState(false);
 
+
+
+const [Expense, setExpense]=useState("");
+
   const SelectedIcon = categoryIcon.find(
     (chosenIcon) => selectedIcon === chosenIcon.iconname
   )?.Icon;
@@ -202,10 +206,10 @@ export default function Home() {
                         </DialogHeader>
 
                         <div className="flex rounded-full mt-5 bg-[#F3F4F6] w-[348px]">
-                          <button className="hover:bg-[#0166FF] hover:text-[#F9FAFB] bg-[#F3F4F6] rounded-full w-[172px] h-[40px] text-[#1F2937] font-normal text-base">
+                          <button value={Expense} onChange={(e)=>setExpense(e.target.vallue)}  className="hover:bg-[#0166FF] hover:text-[#F9FAFB] bg-[#F3F4F6] rounded-full w-[172px] h-[40px] text-[#1F2937] font-normal text-base">
                             Expense
                           </button>
-                          <button className="hover:bg-[#0166FF] hover:text-[#F9FAFB] bg-[#F3F4F6] rounded-full w-[172px] h-[40px] text-[#1F2937] font-normal text-base">
+                          <button  value={Income} onChange={(e)=>setExpense(e.target.vallue)} className="hover:bg-[#0166FF] hover:text-[#F9FAFB] bg-[#F3F4F6] rounded-full w-[172px] h-[40px] text-[#1F2937] font-normal text-base">
                             Income
                           </button>
                         </div>
