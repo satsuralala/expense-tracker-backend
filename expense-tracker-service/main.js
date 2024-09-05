@@ -90,7 +90,7 @@ app.post("/transactions", async (req, res) => {
   const { type } = req.body;
   const { date } = req.body;
   const { payee } = req.body;
-  const { note,time } = req.body;
+  const { note } = req.body;
   const id = await createNewTransaction({
     amount,
     categoryId,
@@ -98,7 +98,6 @@ app.post("/transactions", async (req, res) => {
     date,
     payee,
     note,
-    time,
   });
 
 
@@ -126,12 +125,12 @@ app.put("/transactions/:id", async (req, res) => {
   const { type } = req.body;
   const { date } = req.body;
   const { payee } = req.body;
-  const { note ,time} = req.body;
+  const { note } = req.body;
 
   if (!id) {
     res.status(400).json({ error: "name required" });
     return;
   }
-  await updateOneTransaction({ amount, categoryId, type, date, payee, note ,time});
+  await updateOneTransaction({ amount, categoryId, type, date, payee, note });
   res.sendStatus(204);
 });
