@@ -28,6 +28,7 @@ async function updateOneCategory(id, { name, color, icon }) {
   const list =
     await sql`update category set name =${name}, color =${color}, icon =${icon} where id=${id}`;
 }
+
 async function deleteOneCategory(id) {
   const deleteResult = await sql`delete * from category where id=${id}`;
 }
@@ -35,17 +36,18 @@ async function deleteOneCategory(id) {
 //Transaction
 
 async function createNewTransaction({
+
   amount,
-  input,
   categoryId,
   type,
   date,
+  time,
   payee,
   note,
-}) {
-  if (amount && categoryId && type && date && payee && note) {
+} ){
+  if (amount && categoryId && type && date && time && payee && note) {
     const id = uuidv4();
-    await sql`insert into transaction(amount, categoryId, type, date, payee, note) values (${amount}, ${categoryId}, ${type}, ${date}, ${payee}, ${note})`;
+    await sql`insert into transaction (id, amount, categoryId, type, date,time, payee, note) values (${id},${amount}, ${categoryId}, ${type}, ${date}, ${time},${payee}, ${note})`;
 
     return id;
   } else {
@@ -67,12 +69,20 @@ async function getOneTransaction(id) {
 
 async function updateOneTransaction(
   id,
-  { amount, categoryId, type, date, payee, note }
+  { amount,
+    categoryId,
+    type,
+    date,
+    time,
+    payee,
+    note,}
 ) {
   const list =
-  await sql`update transaction set amount=${amount}, categoryId=${categoryId}, type=${type}, date=${date}, payee=${payee}, note=${note} where id=${id}`;
+  await sql`update transaction set ${amount}, ${categoryId}, ${type}, ${date}, ${time},${payee}, ${note} where id=${id}`;
 
 }
+
+
 async function deleteOneTransaction(id) {
   const deleteResult = await sql`delete from transaction where id=${id}`;
   

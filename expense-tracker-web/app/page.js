@@ -75,9 +75,6 @@ import {
 
 import * as React from "react";
 
-import { Calendar } from "@/components/ui/calendar";
-import { Textarea } from "@/components/ui/textarea";
-
 export default function Home() {
   const [open, setOpen] = useState(false);
   const [selectedIcon, setSelectedIcon] = useState("home");
@@ -85,22 +82,21 @@ export default function Home() {
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
 
+
   const SelectedIcon = categoryIcon.find(
     (chosenIcon) => selectedIcon === chosenIcon.iconname
   )?.Icon;
 
   const [categories, setCategories] = useState([]);
   const [openRecord, setopenRecord] = useState(false);
-  const [closeRecord, setcloseRecord] = useState(false);
   const [openExpense, setopenExpense] = useState(false);
+
   const [date, setDate] = useState();
-  const formattedDate = date
-    ? date.toLocaleDateString(undefined, {
-        year: "numeric", // "2023"
-        month: "short", // "Oct"
-        day: "2-digit", // "10"
-      })
-    : "Select a date";
+  const [time, setTime] = useState();
+  const [payee, setPayee] = useState("");
+  const [note, setNote] = useState("");
+
+  const formattedDate = "";
 
   function loadlist() {
     fetch(`http://localhost:4000/categories`)
@@ -143,6 +139,10 @@ export default function Home() {
         type: type,
         amount: amount,
         categoryId: CategoryId,
+        date: date,
+        time: time,
+        payee: payee,
+        note: note,
       }),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
@@ -192,7 +192,7 @@ export default function Home() {
   const [type, setType] = useState("");
   const [amount, setAmount] = useState();
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [CategoryId, setCategoryId] = useState();
+  const [CategoryId, setCategoryId] = useState(null);
   return (
     <main>
       <Nav></Nav>
@@ -229,15 +229,30 @@ export default function Home() {
                         <div className="flex rounded-full mt-5 bg-[#F3F4F6] w-[348px]">
                           <button
                             value={type}
-                            onClick={() => setType("expense")}
-                            className="hover:bg-[#0166FF] hover:text-[#F9FAFB] bg-[#F3F4F6] rounded-full w-[172px] h-[40px] text-[#1F2937] font-normal text-base"
+                            onClick={() => {
+                            
+                              setType("EXPENSE");
+                            }}
+                            className={`
+                               rounded-full w-[172px] h-[40px] 
+                               font-normal text-base 
+                              ${type === "EXPENSE" ? 'bg-[#0166FF] text-[#F9FAFB]' : 'bg-[#F3F4F6] text-[#1F2937]'}`
+                            }
                           >
                             Expense
                           </button>
                           <button
                             value={type}
-                            onClick={() => setType("income")}
-                            className="hover:bg-[#0166FF] hover:text-[#F9FAFB] bg-[#F3F4F6] rounded-full w-[172px] h-[40px] text-[#1F2937] font-normal text-base"
+                            onClick={() => {
+                      
+                              setType("INCOME");
+                            }}
+                            className={`
+                              rounded-full w-[172px] h-[40px] 
+                               font-normal text-base 
+                              ${type === "INCOME" ? 'bg-[#16A34A] text-[#F9FAFB]' : 'bg-[#F3F4F6] text-[#1F2937]'}`
+                            }
+
                           >
                             Income
                           </button>
@@ -263,11 +278,18 @@ export default function Home() {
                         <h2 className="text-[#1F2937] text-base font-normal pt-[19px] pb-2">
                           Category
                         </h2>
-                        <Select value={categories}  onValueChange={categories} >
+                        <Select
+                          value={selectedCategory || ""}
+                          onValueChange={(value) => {
+                            setSelectedCategory(value);
+                            setCategoryId(value);
+                          }}
+                          placeholder="Choose"
+                        >
                           <SelectTrigger className="w-[348px] bg-[#F9FAFB] border-[#D1D5DB] border-[1px] ">
                             <SelectValue
                               className="bg-[#F9FAFB] "
-                              placeholder="Choose"
+                              placeholder="Choose category"
                             />
                           </SelectTrigger>
                           <SelectContent>
@@ -277,7 +299,7 @@ export default function Home() {
                                 <SelectItem
                                   key={category.id}
                                   value={category.id}
-                                  onClick={() => setSelectedCategory(category)}
+                                  onClick={() => setCategoryId(category.id)}
                                 >
                                   <div className="flex items-center gap-2">
                                     <ShowCategory
@@ -296,29 +318,33 @@ export default function Home() {
                           <h2 className="font-normal text-base text-[#1F2937] ">
                             Date
                           </h2>
-                          <Select>
-                            <SelectTrigger className="w-[180px]">
-                              <SelectValue placeholder={formattedDate} />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectGroup>
-                                <SelectLabel>Calendar</SelectLabel>
-                                <Calendar
-                                  mode="single"
-                                  selected={date}
-                                  onSelect={setDate}
-                                  className="rounded-md border"
-                                />
-                              </SelectGroup>
-                            </SelectContent>
-                          </Select>
+                          <div className="flex gap-3">
+                            <input
+                              type="date"
+                              value={date}
+                              onChange={(e) => setDate(e.target.value)}
+                              placeholder="Select a date"
+                              required
+                              className="w-[168px] h-[48px] bg-[#F9FAFB] rounded-sm border-[#D1D5DB] border-[1px] "
+                            />
+                            <input
+                              type="time"
+                              value={time}
+                              onChange={(e) => setTime(e.target.value)}
+                              placeholder="Select a time"
+                              required
+                              className="w-[168px] h-[48px] bg-[#F9FAFB] rounded-sm border-[#D1D5DB] border-[1px] "
+                            />
+                          </div>
                         </div>
                         <button
                           onClick={createNewTransaction}
-                          className="flex rounded-full mt-5 bg-[#16A34A] w-[348px] justify-center items-center h-[40px] text-[#F9FAFB] text-base "
+                          className={`flex rounded-full mt-5  w-[348px] justify-center items-center h-[40px]  text-base ${type === "INCOME" ? 'bg-[#16A34A] text-[#F9FAFB]' : 'bg-[#0166FF] text-[#F9FAFB]'} `}
                         >
                           Add Record
                         </button>
+
+                        
                       </div>
                       <div className="flex-1">
                         <Separator className="mt-[33px]" />
@@ -326,24 +352,23 @@ export default function Home() {
                           <h2 className="text-[#1F2937] text-base font-normal pt-[15px]  pb-2">
                             Payee
                           </h2>
-                          <Select className="pl-6">
-                            <SelectTrigger className="w-[348px] bg-[#F9FAFB] border-[#D1D5DB] border-[1px] ">
-                              <SelectValue
-                                className="bg-[#F9FAFB] "
-                                placeholder="Write here"
-                              />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectGroup>
-                                <SelectLabel>Fruits</SelectLabel>
-                              </SelectGroup>
-                            </SelectContent>
-                          </Select>
+                          <input
+                            type="text"
+                            value={payee}
+                            onChange={(e) => setPayee(e.target.value)}
+                            placeholder="Enter the payee's name"
+                            required
+                            className="w-[348px] h-[48px] bg-[#F9FAFB] border-[#D1D5DB] border-[1px] rounded-lg"
+                          />
+
                           <h2 className="text-[#1F2937] text-base font-normal pt-[19px]  pb-2">
                             Note
                           </h2>
-                          <Textarea
-                            className="bg-[#F3F4F6] border-[#D1D5DB] border-[1px] w-[348px] h-[280px]"
+                          <textarea
+                            type="text"
+                            value={note}
+                            onChange={(e) => setNote(e.target.value)}
+                            className="bg-[#F3F4F6] border-[#D1D5DB] border-[1px] w-[348px] h-[280px] rounded-lg"
                             placeholder="Write here"
                           />
                         </div>
