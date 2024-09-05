@@ -259,20 +259,7 @@ export default function Home() {
                         </div>
 
                         <div value="account">
-                          <div className="mt-5 w-[348px] bg-[#F3F4F6] border-[#D1D5DB] border-[1px] rounded-md">
-                            <h1 className=" pt-3 pl-4 font-normal  text-base">
-                              Amount
-                            </h1>
-                            <input
-                              value={amount}
-                              type="number"
-                              onChange={(e) =>
-                                setAmount(parseFloat(e.target.value))
-                              }
-                              className="bg-[#F3F4F6] pl-4 pb-3"
-                              placeholder="₮ 000.00"
-                            />
-                          </div>
+                          
                         </div>
 
                         <h2 className="text-[#1F2937] text-base font-normal pt-[19px] pb-2">
