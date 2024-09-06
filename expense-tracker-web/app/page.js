@@ -82,12 +82,12 @@ export default function Home() {
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
 
-
   const SelectedIcon = categoryIcon.find(
     (chosenIcon) => selectedIcon === chosenIcon.iconname
   )?.Icon;
 
   const [categories, setCategories] = useState([]);
+  const [transactions, setTransactions] = useState([]);
   const [openRecord, setopenRecord] = useState(false);
   const [openExpense, setopenExpense] = useState(false);
 
@@ -108,6 +108,17 @@ export default function Home() {
 
   useEffect(() => {
     loadlist();
+  }, []);
+  function loadTransactions() {
+    fetch(`http://localhost:4000/transactions`)
+      .then((res) => res.json())
+      .then((data) => {
+        setTransactions(data);
+      });
+  }
+
+  useEffect(() => {
+    loadTransactions();
   }, []);
 
   function createNew() {
@@ -148,7 +159,7 @@ export default function Home() {
         "Content-type": "application/json; charset=UTF-8",
       },
     }).then(() => {
-      loadlist();
+      loadTransactions;
       reset();
       setOpen(false);
       setLoading(false);
@@ -163,7 +174,7 @@ export default function Home() {
         if (res.status == 404) {
           alert("category not found");
         }
-        loadlist();
+        loadTransactions();
       });
     }
   }
@@ -178,7 +189,7 @@ export default function Home() {
           "Content-type": "application/json; charset=UTF-8",
         },
       }).then(() => {
-        loadlist();
+        loadTransactions();
       });
     }
   }
@@ -197,7 +208,7 @@ export default function Home() {
     <main>
       <Nav></Nav>
       <div className="bg-gray-100 w-full">
-        <div className="max-w-[1200px] px-[120px]">
+        <div className="max-w-[1200px] px-[120px] flex gap-6">
           <div className="bg-[#F9FAFB] border-[#E5E7EB] border-[1px] rounded-xl w-[282px]">
             <div className="px-4 py-6">
               <div className="flex flex-col gap-6">
@@ -230,29 +241,32 @@ export default function Home() {
                           <button
                             value={type}
                             onClick={() => {
-                            
                               setType("EXPENSE");
                             }}
                             className={`
                                rounded-full w-[172px] h-[40px] 
                                font-normal text-base 
-                              ${type === "EXPENSE" ? 'bg-[#0166FF] text-[#F9FAFB]' : 'bg-[#F3F4F6] text-[#1F2937]'}`
-                            }
+                              ${
+                                type === "EXPENSE"
+                                  ? "bg-[#0166FF] text-[#F9FAFB]"
+                                  : "bg-[#F3F4F6] text-[#1F2937]"
+                              }`}
                           >
                             Expense
                           </button>
                           <button
                             value={type}
                             onClick={() => {
-                      
                               setType("INCOME");
                             }}
                             className={`
                               rounded-full w-[172px] h-[40px] 
                                font-normal text-base 
-                              ${type === "INCOME" ? 'bg-[#16A34A] text-[#F9FAFB]' : 'bg-[#F3F4F6] text-[#1F2937]'}`
-                            }
-
+                              ${
+                                type === "INCOME"
+                                  ? "bg-[#16A34A] text-[#F9FAFB]"
+                                  : "bg-[#F3F4F6] text-[#1F2937]"
+                              }`}
                           >
                             Income
                           </button>
@@ -339,12 +353,14 @@ export default function Home() {
                         </div>
                         <button
                           onClick={createNewTransaction}
-                          className={`flex rounded-full mt-5  w-[348px] justify-center items-center h-[40px]  text-base ${type === "INCOME" ? 'bg-[#16A34A] text-[#F9FAFB]' : 'bg-[#0166FF] text-[#F9FAFB]'} `}
+                          className={`flex rounded-full mt-5  w-[348px] justify-center items-center h-[40px]  text-base ${
+                            type === "INCOME"
+                              ? "bg-[#16A34A] text-[#F9FAFB]"
+                              : "bg-[#0166FF] text-[#F9FAFB]"
+                          } `}
                         >
                           Add Record
                         </button>
-
-                        
                       </div>
                       <div className="flex-1">
                         <Separator className="mt-[33px]" />
@@ -531,6 +547,21 @@ export default function Home() {
               </div>
             </div>
           </div>
+          <div>
+            <div className="bg-[#FFFFFF] border-[#E5E7EB] border-[1px] rounded-xl">
+              <div className="py-3 px-6">
+                {transactions.map((transaction, index) => (
+                  <div key={index}>
+                    {transaction.amount} 
+                    {transaction.date}
+                    
+
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+          </div>
         </div>
       </div>
     </main>
@@ -558,4 +589,8 @@ function ShowCategory({ iconname, colorname }) {
   console.log({ iconObject });
 
   return <Icon style={{ color: hexColor }} />;
+}
+
+function showRecord({ icon, iconcolor }) {
+  const iconObject = categoryIcon.find((item) => item.iconname === icon);
 }
