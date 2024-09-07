@@ -548,14 +548,14 @@ export default function Home() {
             </div>
           </div>
           <div>
-            <div className="bg-[#FFFFFF] border-[#E5E7EB] border-[1px] rounded-xl">
+            <div>
               <div className="py-3 px-6">
                 {transactions.map((transaction, index) => (
-                  <div key={index}>
+                  <div key={index} className="bg-[#FFFFFF] border-[#E5E7EB] border-[1px] rounded-xl">
+                    <div>{transaction.category}</div>
                     {transaction.amount} 
-                    {transaction.date}
+                    {transaction.time}
                     
-
                   </div>
                 ))}
               </div>

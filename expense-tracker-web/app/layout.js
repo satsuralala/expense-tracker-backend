@@ -16,19 +16,19 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <ClerkProvider>
+    // <ClerkProvider>
       <html lang="en">
         <body className={inter.className}>
-            <SignedOut>
-              <SignInButton />
-            </SignedOut>
-            <SignedIn>
+            {/* <SignedOut > */}
+              {/* <SignInButton className='bg-red-50' /> */}
+            {/* </SignedOut> */}
+            {/* <SignedIn> */}
             {children}
-            </SignedIn>
+            {/* </SignedIn> */}
        
         </body>
 
       </html>
-    </ClerkProvider>
+    // </ClerkProvider>
   );
 }
