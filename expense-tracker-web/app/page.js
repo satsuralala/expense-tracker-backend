@@ -121,7 +121,26 @@ export default function Home() {
     loadTransactions();
   }, []);
 
-  
+  function createNew() {
+    setLoading(true);
+    fetch(`http://localhost:4000/categories`, {
+      method: "POST",
+      body: JSON.stringify({
+        name: name,
+        color: selectedColor,
+        icon: selectedIcon,
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    }).then(() => {
+      loadlist();
+      reset();
+      setOpen(false);
+      toast("successfully added");
+      setLoading(false);
+    });
+  }
 
   function createNewTransaction() {
     setLoading(true);
