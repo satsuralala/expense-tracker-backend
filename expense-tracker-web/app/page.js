@@ -142,7 +142,29 @@ export default function Home() {
     });
   }
 
-
+  function createNewTransaction() {
+    setLoading(true);
+    fetch(`http://localhost:4000/transactions`, {
+      method: "POST",
+      body: JSON.stringify({
+        type: type,
+        amount: amount,
+        categoryId: CategoryId,
+        date: date,
+        time: time,
+        payee: payee,
+        note: note,
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    }).then(() => {
+      loadTransactions;
+      reset();
+      setOpen(false);
+      setLoading(false);
+    });
+  }
 
   function deleteCategory(id) {
     if (confirm("Do you want to delete this?")) {
