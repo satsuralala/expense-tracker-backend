@@ -101,7 +101,7 @@ export function AddCategory() {
                     </div>
                   ))}
                 </div>
-                <Separator className="my-4" />
+               
                 <div className="grid grid-cols-6 gap-2">
                   {categoryColor.map(({ colorname, value }) => (
                     <div
