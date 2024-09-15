@@ -1,14 +1,6 @@
 
 CREATE TABLE IF NOT EXISTS playing_with_neon(id SERIAL PRIMARY KEY, name TEXT NOT NULL, value REAL);
 
-CREATE TABLE category(
-    id TEXT PRIMARY KEY,
-    name TEXT NOT NULL
-)
-ALTER TABLE category
-    ADD COLUMN color varchar(12);
-    ADD COLUMN icon varchar(12);
-
 CREATE TYPE transactionType AS ENUM('INCOME', 'EXPENSE');
 
 CREATE TABLE transaction(
